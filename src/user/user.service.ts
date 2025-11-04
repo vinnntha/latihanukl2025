@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UserService {
@@ -46,6 +47,17 @@ export class UserService {
     return {
       success: true,
       data: user,
+    };
+  }
+
+  async create(createUserDto: CreateUserDto) {
+    const newUser = await this.prisma.user.create({
+      data: createUserDto,
+    });
+    return {
+      status: 'success',
+      message: 'User berhasil dibuat',
+      data: newUser,
     };
   }
 }
